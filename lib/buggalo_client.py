@@ -149,7 +149,7 @@ def emailData(recipient, data):
                 keys = sorted(keys)
 
             for key in keys:
-                body += '<tr><td>%s</td>' % key
+                body += '<tr><td>%s</td>' % str(key)
                 if key == 'stacktrace':
                     body += '<td><pre>'
                     for item in values[key]:
@@ -164,7 +164,7 @@ def emailData(recipient, data):
 
     msg = MIMEText(body, 'html')
     msg['Subject'] = '[Buggalo][%s] %s' % (data['addon']['id'], data['exception']['value'])
-    msg['From'] = 'Buggalo'
+    msg['From'] = 'Buggalo@bugallo.com'
     msg['To'] = recipient
     msg['X-Mailer'] = 'Buggalo Exception Collector'
 
