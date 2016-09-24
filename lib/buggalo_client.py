@@ -157,6 +157,8 @@ def emailData(recipient, data):
                     body += '</pre></td>'
                 elif key == 'type':
                     body += '<td>%s</td>' % str(values[key][5:-2])
+                elif group == 'extraData':
+                    body += '<td style="white-space: pre">%s</td>' % str(values[key])
                 else:
                     body += '<td>%s</td>' % str(values[key])
                 body += '</tr>'
