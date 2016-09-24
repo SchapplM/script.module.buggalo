@@ -155,6 +155,8 @@ def emailData(recipient, data):
                     for item in values[key]:
                         body += item + '\n'
                     body += '</pre></td>'
+                elif key == 'type':
+                    body += '<td>%s</td>' % str(values[key][5:-2])
                 else:
                     body += '<td>%s</td>' % str(values[key])
                 body += '</tr>'
