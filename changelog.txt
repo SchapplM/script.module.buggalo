@@ -1,3 +1,7 @@
+[B]Version 1.2.0 - 2020-04-24[/B]
+- Updated to Python 3
+- Updated language files to new Kodi format (*.po)
+
 [B]Version 1.1.8 - 2017-12-28[/B]
 - Support for unicode data
 
