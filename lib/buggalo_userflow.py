@@ -20,7 +20,7 @@
 #
 import datetime
 import os
-import simplejson
+import json
 
 import xbmc
 import xbmcaddon
@@ -56,7 +56,7 @@ def loadUserFlow():
 
     if os.path.exists(file):
         try:
-            userFlow = simplejson.load(open(file))
+            userFlow = json.load(open(file))
         except Exception:
             userFlow = dict()
     else:
@@ -73,7 +73,7 @@ def saveUserFlow(userFlow):
         try:
             os.makedirs(path)
         except OSError:
-            print "unable to create directory for saving userflow; userflow will not be saveds"
+            print("unable to create directory for saving userflow; userflow will not be saveds")
             return  # ignore
 
     try:
@@ -89,7 +89,7 @@ def saveUserFlow(userFlow):
             if dateStr < oneDayAgoStr:
                 del userFlow[dateStr]
 
-        simplejson.dump(userFlow, open(file, 'w'))
+        json.dump(userFlow, open(file, 'w'))
     except Exception:
-        print "problem saving userflow json file"
+        print("problem saving userflow json file")
 

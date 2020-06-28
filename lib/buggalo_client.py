@@ -21,10 +21,10 @@
 import datetime
 import os
 import platform
-import simplejson
+import json
 import sys
 import traceback
-import urllib2
+import urllib.request
 import smtplib
 from email.mime.text import MIMEText
 import xbmc
@@ -67,7 +67,7 @@ def gatherData(etype, value, tracebackInfo, extraData, globalExtraData):
         system['release'] = release
         system['version'] = version
         system['machine'] = machine
-    except Exception, ex:
+    except Exception as ex:
         system['sysname'] = sys.platform
         system['exception'] = str(ex)
     data['system'] = system
@@ -100,8 +100,6 @@ def gatherData(etype, value, tracebackInfo, extraData, globalExtraData):
         # convert globalExtraData to a dict that can be processed by BuggaloDialog, submitData and emailData (as part of data)
         for (key, value) in globalExtraData.items():
             if isinstance(value, str):
-                extraDataInfo[key] = value.decode('utf-8', 'ignore') # convert to unicode
-            elif isinstance(value, unicode):
                 extraDataInfo[key] = value
             else:
                 extraDataInfo[key] = str(value)
@@ -109,17 +107,15 @@ def gatherData(etype, value, tracebackInfo, extraData, globalExtraData):
         if isinstance(extraData, dict):
             for (key, value) in extraData.items():
                 if isinstance(extraData, str):
-                    extraDataInfo[key] = value.decode('utf-8', 'ignore')
-                elif isinstance(extraData, unicode):
                     extraDataInfo[key] = value
                 else:
                     extraDataInfo[key] = str(value)
         elif extraData is not None:
-            if isinstance(extraData, unicode):
+            if isinstance(extraData, str):
                 extraDataInfo[''] = extraData
             else:
                 extraDataInfo[''] = str(extraData)
-    except Exception, ex:
+    except Exception as ex:
         (etype, value, tb) = sys.exc_info()
         traceback.print_exception(etype, value, tb)
         extraDataInfo['exception'] = str(ex)
@@ -131,10 +127,10 @@ def gatherData(etype, value, tracebackInfo, extraData, globalExtraData):
 def submitData(serviceUrl, data):
     for attempt in range(0, 3):
         try:
-            json = simplejson.dumps(data)
-            req = urllib2.Request(serviceUrl, json)
+            json_data = json.dumps(data)
+            req = urllib.request.Request(serviceUrl, json_data)
             req.add_header('Content-Type', 'text/json')
-            u = urllib2.urlopen(req)
+            u = urllib.request.urlopen(req)
             u.read()
             u.close()
             break  # success; no further attempts

@@ -63,7 +63,7 @@ class BuggaloDialog(xbmcgui.WindowXMLDialog):
         self.getControl(self.HEADING_LABEL).setLabel(self.heading)
         self.getControl(self.DETAILS_VISIBLE_LABEL).setVisible(not self.detailsVisible)
         self.getControl(self.THANK_YOU_VISIBLE_LABEL).setVisible(True)
-        self.getControl(self.DETAILS_LINE1_LABEL).setLabel(buggaloAddon.getLocalizedString(91000) % self.data['addon']['name'].decode('utf-8', 'replace'))
+        self.getControl(self.DETAILS_LINE1_LABEL).setLabel(buggaloAddon.getLocalizedString(91000) % self.data['addon']['name'])
         listControl = self.getControl(self.DETAILS_LIST)
 
         try:
@@ -77,14 +77,14 @@ class BuggaloDialog(xbmcgui.WindowXMLDialog):
                         keys = sorted(keys)
 
                     for key in keys:
-                        if isinstance(values[key], unicode):
+                        if isinstance(values[key], str):
                             item = xbmcgui.ListItem(label='    %s' % key, label2=values[key]) # values can be unicode
                         else:
                             item = xbmcgui.ListItem(label='    %s' % key, label2=str(values[key]))
                         listControl.addItem(item)
 
                 else:
-                    if isinstance(values, unicode):
+                    if isinstance(values, str):
                         item = xbmcgui.ListItem(label='[B]%s[/B]' % group, label2=values)
                     else:
                         item = xbmcgui.ListItem(label='[B]%s[/B]' % group, label2=str(values))
@@ -115,7 +115,7 @@ class BuggaloDialog(xbmcgui.WindowXMLDialog):
                 (etype, value, tb) = sys.exc_info()
                 traceback.print_exception(etype, value, tb)
 
-            xbmc.sleep(2000)
+            xbmc.Monitor().waitForAbort(2.0)
             self.close()
 
         elif controlId == self.DETAILS_BUTTON:
@@ -128,3 +128,4 @@ class BuggaloDialog(xbmcgui.WindowXMLDialog):
 
     def onFocus(self, control):
         pass
+
